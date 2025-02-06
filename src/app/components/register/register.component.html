@@ -1,0 +1,80 @@
+<div class="container">
+  <h3>Inscription</h3>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div>
+      <label for="first-name">Firstname : </label>
+      <input id="first-name" formControlName="firstName" type="text" />
+      @if (form.get('firstName')?.hasError('required') &&
+      (form.get('firstName')?.dirty || form.get('firstName')?.touched)) {
+      <div class="error-message">This field is required</div>
+      }
+    </div>
+    <div>
+      <label for="last-name">Lastname : </label>
+      <input id="last-name" formControlName="lastName" type="text" />
+      @if (form.get('lastName')?.hasError('required') &&
+      (form.get('lastName')?.dirty || form.get('lastName')?.touched)) {
+      <div class="error-message">This field is required</div>
+      }
+    </div>
+    <div formGroupName="address">
+      <div>
+        <label for="street">Street:</label>
+        <input id="street" formControlName="street" />
+        @if (form.get('address.street')?.hasError('required') &&
+        (form.get('address.street')?.dirty ||
+        form.get('address.street')?.touched)) {
+        <div class="error-message">This field is required</div>
+        }
+      </div>
+      <div>
+        <label for="city">City:</label>
+        <input id="city" formControlName="city" />
+        @if (form.get('address.city')?.hasError('required') &&
+        (form.get('address.city')?.dirty || form.get('address.city')?.touched))
+        {
+        <div class="error-message">This field is required</div>
+        }
+      </div>
+    </div>
+    <div>
+      <label for="email">Email : </label>
+      <input id="email" formControlName="email" type="email" />
+      @if (form.get('email')?.hasError('email')&& (form.get('email')?.dirty ||
+      form.get('email')?.touched)) {
+      <div class="error-message">Please enter a valid email</div>
+      }@else if (form.get('email')?.hasError('emailTaken')) {
+      <div class="error-message">Email is already taken</div>
+
+      }
+    </div>
+    <div>
+      <label for="password">Password : </label>
+      <input id="password" formControlName="password" type="password" />
+      @if (form.get('password')?.hasError('password') &&
+      (form.get('password')?.dirty || form.get('password')?.touched)) {
+      <div class="error-message">This field is required</div>
+      }@else if (form.get('password')?.hasError('noNumber') &&
+      (form.get('password')?.dirty || form.get('password')?.touched)) {
+      <div class="error-message">Password must contain at least one number</div>
+      }
+    </div>
+    <div formArrayName="aliases">
+      <button type="button" (click)="addAlias()">+ Add another alias</button>
+      @for (alias of aliases.controls; track $index) {
+      <div>
+        <label for="alias-{{ $index }}">Alias: </label>
+        <input id="alias-{{ $index }}" type="text" [formControlName]="$index" />
+      </div>
+      }
+    </div>
+
+    <button color="primary" type="submit" [disabled]="form.invalid">
+      Save
+    </button>
+  </form>
+  <div class="success-message">
+    <!-- {{ form.value | json }} -->
+    {{ message }}
+  </div>
+</div>
