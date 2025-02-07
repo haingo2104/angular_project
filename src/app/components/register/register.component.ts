@@ -21,7 +21,7 @@ import {
 export class RegisterComponent {
  message? : string;
   form!: FormGroup;
-
+ 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       firstName: ['', Validators.required],
@@ -54,3 +54,4 @@ export class RegisterComponent {
 
   }
 }
+
