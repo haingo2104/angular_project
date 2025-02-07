@@ -12,20 +12,27 @@ import {
   emailAsyncValidator,
   passwordValidator,
 } from '../../validators/validator';
+import { CustomInputComponent } from '../custom-input/custom-input.component';
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    CustomInputComponent,
+],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
- message? : string;
+  message?: string;
   form!: FormGroup;
- 
+
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
+      age: [0, Validators.required],
       email: ['', [Validators.required, Validators.email], emailAsyncValidator],
       password: ['', [Validators.required, passwordValidator]],
       address: this.fb.group({
@@ -46,12 +53,10 @@ export class RegisterComponent {
   submit() {
     if (this.form.valid) {
       console.log('Formulaire soumis', this.form.value);
-      this.message = "Data saved!"
-      this.form.reset()
+      this.message = 'Data saved!';
+      this.form.reset();
     } else {
       console.log('Formulaire invalide');
     }
-
   }
 }
-
